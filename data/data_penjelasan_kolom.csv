@@ -1,0 +1,38 @@
+1,respondent_id,ID unik untuk setiap responden,Kategori yang akan di hilangkan
+2,h1n1_concern,Tingkat kekhawatiran responden terhadap flu H1N1 (skala ordinal),
+3,h1n1_knowledge,Tingkat pengetahuan responden tentang flu H1N1,
+4,behavioral_antiviral_meds,"Apakah responden mengonsumsi obat antivirus (0 = Tidak, 1 = Ya)",
+5,behavioral_avoidance,Apakah responden menghindari kontak sosial,
+6,behavioral_face_mask,Apakah responden menggunakan masker,
+7,behavioral_wash_hands,Apakah responden sering mencuci tangan,
+8,behavioral_large_gatherings,Apakah responden menghindari kerumunan besar,
+9,behavioral_outside_home,Apakah responden mengurangi aktivitas di luar rumah,
+10,behavioral_touch_face,Apakah responden menghindari menyentuh wajah,
+11,doctor_recc_h1n1,Rekomendasi dokter untuk vaksin H1N1,
+12,doctor_recc_seasonal,Rekomendasi dokter untuk vaksin flu musiman,drop kolom
+13,chronic_med_condition,Apakah responden memiliki penyakit kronis,
+14,child_under_6_months,Apakah ada anak usia di bawah 6 bulan dalam rumah,
+15,health_worker,Apakah responden bekerja di bidang kesehatan,
+16,health_insurance,Apakah responden memiliki asuransi kesehatan,
+17,opinion_h1n1_vacc_effective,Persepsi efektivitas vaksin H1N1,
+18,opinion_h1n1_risk,Persepsi risiko tertular H1N1,
+19,opinion_h1n1_sick_from_vacc,Persepsi risiko sakit akibat vaksin H1N1,
+20,opinion_seas_vacc_effective,Persepsi efektivitas vaksin flu musiman,kemungkinan drop
+21,opinion_seas_risk,Persepsi risiko flu musiman,kemungkinan drop
+22,opinion_seas_sick_from_vacc,Persepsi risiko sakit akibat vaksin flu musiman,drop kolom
+23,age_group,Kelompok usia responden,
+24,education,Tingkat pendidikan terakhir,
+25,race,Ras/etnis responden,drop kolom
+26,sex,Jenis kelamin responden,
+27,income_poverty,Tingkat pendapatan berdasarkan garis kemiskinan,
+28,marital_status,Status pernikahan,
+29,rent_or_own,Status tempat tinggal (sewa / milik sendiri),
+30,employment_status,Status pekerjaan,
+31,hhs_geo_region,Wilayah geografis berdasarkan HHS,drop klolom
+32,census_msa,Klasifikasi wilayah sensus (MSA / non-MSA),
+33,household_adults,Jumlah orang dewasa dalam rumah,
+34,household_children,Jumlah anak dalam rumah,
+35,employment_industry,Industri tempat bekerja,drop kolom
+36,employment_occupation,Jenis pekerjaan,drop kolom
+37,h1n1_vaccine,"Label: Apakah responden menerima vaksin H1N1 (0 = Tidak, 1 = Ya)",
+38,seasonal_vaccine,Apakah responden menerima vaksin flu musiman,drop kolom
