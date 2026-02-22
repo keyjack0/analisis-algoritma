@@ -2,25 +2,19 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-# 1. Load Model dan Daftar Kolom
+
 with open('best_model_rf.pkl', 'rb') as f:
     model = pickle.load(f)
-
 with open('training_columns.pkl', 'rb') as f:
     model_columns = pickle.load(f)
 
-# Pengaturan Halaman
-st.set_page_config(page_title="Prediksi Vaksin Influenza", layout="wide")
 
+st.set_page_config(page_title="Prediksi Vaksin Influenza", layout="wide")
 st.title("Sistem Penerimaan Vaksin Influenza")
 st.write("Silakan isi formulir di bawah ini. Semua pilihan menggunakan bahasa yang mudah dipahami.")
 st.markdown("---")
-
-# Helper Function untuk Konversi Ya/Tidak
 def convert_to_binary(val):
     return 1 if val in ["Ya", "Sudah", "Pernah"] else 0
-
-# Mapping untuk Pandangan (Teks ke Angka 1-5)
 opini_mapping = {
     "Sangat Rendah": 1,
     "Rendah": 2,
@@ -29,15 +23,10 @@ opini_mapping = {
     "Sangat Tinggi": 5
 }
 opini_options = list(opini_mapping.keys())
-
-# Mapping untuk Kekhawatiran (0-3) dan Pengetahuan (0-2)
 concern_labels = {0: "Tidak Khawatir Sama Sekali", 1: "Sedikit Khawatir", 2: "Cukup Khawatir", 3: "Sangat Khawatir"}
 knowledge_labels = {0: "Tidak Tahu Sama Sekali", 1: "Tahu Sedikit", 2: "Sangat Tahu"}
-
-# 2. Form Input Utama
 with st.form("main_form"):
     
-    # --- BAGIAN 1: INFORMASI DASAR ---
     st.subheader("Informasi Dasar")
     col_a, col_b, col_c = st.columns(3)
     with col_a:
@@ -51,8 +40,6 @@ with st.form("main_form"):
         # doc_seas_raw = st.radio("Saran dokter untuk vaksin Musiman?", ["Tidak", "Ya"], horizontal=True)
 
     st.markdown("---")
-
-    # --- BAGIAN 2: KEBIASAAN & KONDISI ---
     st.subheader("Kebiasaan & Kondisi Medis")
     col_d, col_e, col_f = st.columns(3)
     with col_d:
@@ -69,8 +56,6 @@ with st.form("main_form"):
         chronic_med_raw = st.selectbox("Memiliki penyakit kronis?", ["Tidak", "Ya"])
 
     st.markdown("---")
-
-    # --- BAGIAN 3: PANDANGAN TERHADAP VAKSIN (DENGAN SELECTBOX) ---
     st.subheader("Pandangan Anda terhadap Vaksin")
     col_g, col_h = st.columns(2)
     
@@ -99,8 +84,6 @@ with st.form("main_form"):
 
     st.write("")
     submit = st.form_submit_button("PREDIKSI")
-
-# 3. Logika Pemrosesan Data
 if submit:
     input_df = pd.DataFrame(0, index=[0], columns=model_columns)
 
@@ -110,11 +93,8 @@ if submit:
     elif 45 <= user_age <= 54: input_df['age_group_45_-_54_years'] = 1
     elif 55 <= user_age <= 64: input_df['age_group_55_-_64_years'] = 1
     elif user_age >= 65: input_df['age_group_65+_years'] = 1
-
-    # B. Mapping Fitur (Konversi Teks kembali ke Angka)
     input_df['h1n1_concern'] = [k for k, v in concern_labels.items() if v == h1n1_concern_raw][0]
     input_df['h1n1_knowledge'] = [k for k, v in knowledge_labels.items() if v == h1n1_knowledge_raw][0]
-    
     input_df['behavioral_antiviral_meds'] = convert_to_binary(antiviral_raw)
     input_df['behavioral_avoidance'] = convert_to_binary(avoidance_raw)
     input_df['behavioral_face_mask'] = convert_to_binary(face_mask_raw)
@@ -123,33 +103,22 @@ if submit:
     input_df['behavioral_outside_home'] = convert_to_binary(outside_home_raw)
     input_df['behavioral_touch_face'] = convert_to_binary(touch_face_raw)
     input_df['doctor_recc_h1n1'] = convert_to_binary(doc_h1n1_raw)
-    
     input_df['chronic_med_condition'] = convert_to_binary(chronic_med_raw)
     input_df['child_under_6_months'] = convert_to_binary(child_under_6_raw)
     input_df['health_worker'] = convert_to_binary(health_worker_raw)
-    
-    # Ambil nilai angka dari mapping opini
     input_df['opinion_h1n1_vacc_effective'] = opini_mapping[h1n1_eff_raw]
     input_df['opinion_h1n1_risk'] = opini_mapping[h1n1_risk_raw]
     input_df['opinion_h1n1_sick_from_vacc'] = opini_mapping[h1n1_sick_raw]
- 
     input_df['household_adults'] = adults_in_house
     input_df['household_children'] = children_in_house
-    
     input_df['doctor_recc_seasonal'] = 1
     input_df['opinion_seas_vacc_effective'] = 3
     input_df['opinion_seas_risk'] = 3
     input_df['opinion_seas_sick_from_vacc'] = 3
     input_df['seasonal_vaccine'] = 1
-
-    # Align Columns
     input_df = input_df[model_columns]
-
-    # 4. Prediksi
     prediction = model.predict(input_df)
     prob = model.predict_proba(input_df)[0][1] * 100
-
-    # 5. Tampilan Hasil
     st.markdown("---")
     st.subheader("Hasil Prediksi")
     # c1, c2 = st.columns(2)
